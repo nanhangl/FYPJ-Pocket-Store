@@ -11,7 +11,7 @@ const SignInScreen = () => {
             <Image source={require('../assets/inventory_mgmt.png')} style={{width:'80%',height:'40%',resizeMode:'contain'}}/>
             <Input label="Email" value={email} onChangeText={setEmail} autoCapitalize="none" autoCorrect={false} />
             <Input label="Password" value={password} onChangeText={setPassword} autoCapitalize="none" autoCorrect={false}/>
-            <TouchableOpacity title="Login" style={{width:'95%',paddingVertical:10,alignItems:'center',backgroundColor:'#007aff'}}><Text style={{color:'#fff',fontWeight:'bold',fontSize:20}}>Login</Text></TouchableOpacity>
+            <TouchableOpacity style={{width:'95%',paddingVertical:10,alignItems:'center',backgroundColor:'#007aff'}}><Text style={{color:'#fff',fontWeight:'bold',fontSize:20}}>Login</Text></TouchableOpacity>
         </View>
     );
 }
