@@ -4,7 +4,7 @@ import { Input, Button } from 'react-native-elements';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 
-const AddItemsScreen = () => {
+const AddItemsScreen = ({navigation}) => {
     const [loanItemsQty, setLoanItemsQty] = useState([0,0,0,0,0,0,0,0,0,0,0,0]);
     const [refreshFlatList, setRefreshFlatList] = useState(false);
     const originalItemsForLoan = [
@@ -58,6 +58,16 @@ const AddItemsScreen = () => {
         }
     ];
     const [itemsForLoan, setItemsForLoan] = useState(originalItemsForLoan);
+
+    React.useLayoutEffect(() => {
+        navigation.setOptions({
+          headerRight: () => (
+            <TouchableOpacity style={{marginRight:15}} onPress={() => {navigation.navigate("New Loan", {"loanItemsQty":loanItemsQty, "resetNav":true})}}>
+                <Text style={{color:"#007aff"}}>Done</Text>
+            </TouchableOpacity>
+          ),
+        });
+    }, [navigation]);
 
     return (
         <View style={{backgroundColor:'#fff',display:'flex',flexDirection:'column',alignItems:'center',height:'100%'}}>

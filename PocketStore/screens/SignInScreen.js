@@ -12,9 +12,9 @@ const SignInScreen = ({navigation}) => {
         apiReq('signIn', {email, password}).then(res => {
             if (res.status == "ok") {
                 if (res.role == "user") {
-                    navigation.navigate('UserHome');
+                    navigation.navigate('UserHome', {"resetNav": true});
                 } else {
-                    navigation.navigate('ManagerHome');
+                    navigation.navigate('ManagerHome', {"resetNav": true});
                 }
             } else {
                 setErrMsg("You entered an invalid email or password.");
