@@ -17,20 +17,44 @@ import AddItemsScreen from './screens/AddItemsScreen';
 import DetailsScreen from './screens/DetailsScreen';
 import LoansScreen from './screens/LoansScreen';
 import ManageScreen from './screens/ManageScreen';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faPlus as faPlusSolid, faClipboardList as faClipboardListSolid, faCheckSquare as faCheckSquareSolid } from '@fortawesome/free-solid-svg-icons'
+import { faPlus as faPlusRegular, faClipboardList as faClipboardListRegular, faCheckSquare as faCheckSquareRegular } from '@fortawesome/free-regular-svg-icons'
+import { Text, TouchableOpacity }  from 'react-native';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
-const App = () => {
+function UserHome() {
+  return (
+    <Tab.Navigator>
+        <Tab.Screen name="New Loan" component={NewLoansScreen} />
+        <Tab.Screen name="My Loans" component={LoansScreen} />
+    </Tab.Navigator>
+  );
+}
+
+function ManagerHome() {
+  return (
+    <Tab.Navigator>
+        <Tab.Screen name="Manage Loans" component={ManageScreen} />
+    </Tab.Navigator>
+  );
+}
+
+const App = ({navigation}) => {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-      <Stack.Screen name="Manage Loans" component={ManageScreen} />
-        <Stack.Screen name="My Loans" component={LoansScreen} />
+        <Stack.Screen name="PocketStore" component={SignInScreen} />
+        <Stack.Screen name="UserHome" component={UserHome} />
+        <Stack.Screen name="ManagerHome" component={ManagerHome} />
+        <Stack.Screen name="Add Items" component={AddItemsScreen} options={{headerRight: () => (
+          <TouchableOpacity style={{marginRight:15}} onPress={() => {navigation}}>
+            <Text style={{color:"#007aff"}}>Done</Text>
+          </TouchableOpacity>
+        )}} />
         <Stack.Screen name="Loan Details" component={DetailsScreen} />
-        <Stack.Screen name="Add Items" component={AddItemsScreen} />
-        <Stack.Screen name="New Loan" component={NewLoansScreen} />
-        <Stack.Screen name="Welcome to PocketStore" component={SignInScreen} />
       </Stack.Navigator>
     </NavigationContainer>
     /*
@@ -39,7 +63,7 @@ const App = () => {
         <Tab.Screen name="My Loans" component={LoansScreen} />
       </Tab.Navigator>    
     */
-  );
+   );
 }
 
 export default App;

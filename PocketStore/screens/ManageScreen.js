@@ -9,7 +9,7 @@ const ManageScreen = () => {
     return (
         <View style={{backgroundColor:'#fff',display:'flex',flexDirection:'column',height:'100%',paddingHorizontal:15}}>
             <View style={{shadowColor:'#000',shadowOffset:{width:0,height:4},shadowOpacity:0.25,shadowRadius:3,elevation:5,backgroundColor:'#fff',marginTop:15,borderRadius:3}}>
-                <View style={{flexDirection:'row',borderBottomWidth:1,borderBottomColor:'#d0d0d0',padding:15}}>
+                <View style={{flexDirection:'row',borderBottomWidth:1,borderBottomColor:'#d0d0d0',padding:15,alignItems:'center'}}>
                     <FontAwesomeIcon icon={faUser} />
                     <Text style={{marginLeft:5}}>example@domain</Text>
                 </View>
