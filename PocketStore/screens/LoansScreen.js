@@ -4,7 +4,17 @@ import { Input, Button } from 'react-native-elements';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faSearch, faCheckCircle } from '@fortawesome/free-solid-svg-icons'
 
-const LoansScreen = () => {
+const LoansScreen = ({navigation}) => {
+
+    useState(async () => {
+        apiReq('myLoans', {}).then(res => {
+            if (res.status == "ok") {
+                var loans = res.loans;
+            } else {
+
+            }
+        })
+    })
 
     return (
         <View style={{backgroundColor:'#fff',display:'flex',flexDirection:'column',height:'100%',paddingHorizontal:15}}>
@@ -12,8 +22,8 @@ const LoansScreen = () => {
                 <FontAwesomeIcon icon={faCheckCircle} style={{color:'#6BCF7A'}}/>
                 <View style={{marginLeft:25}}>
                     <View style={{flexDirection:'row'}}>
-                        <Text style={{color:'#888'}}>Username: </Text>
-                        <Text style={{color:'#888'}}>example@domain</Text>
+                        <Text style={{color:'#888'}}>Id: </Text>
+                        <Text style={{color:'#888'}}>exampleId</Text>
                     </View>
                     <View style={{flexDirection:'row'}}>
                         <Text>Due Date: </Text>
