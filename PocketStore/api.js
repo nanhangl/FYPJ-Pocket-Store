@@ -45,6 +45,32 @@ function apiReq(type, payload) {
                 })
                 break;
             }
+            case 'allLoans': {
+                const authToken = await AsyncStorage.getItem('token');
+                axios.post(apiUrl, {
+                    endpoint: '/allLoans',
+                    token: authToken
+                })
+                .then(function (response) {
+                    var responseData = response.data;
+                    resolve(responseData);
+                })
+                break;
+            }
+            case 'updateStatus': {
+                const authToken = await AsyncStorage.getItem('token');
+                axios.post(apiUrl, {
+                    endpoint: '/updateStatus',
+                    token: authToken,
+                    loanId: payload.loanId,
+                    newStatus: payload.newStatus
+                })
+                .then(function (response) {
+                    var responseData = response.data;
+                    resolve(responseData);
+                })
+                break;
+            }
         }
     })
 }
