@@ -71,6 +71,19 @@ function apiReq(type, payload) {
                 })
                 break;
             }
+            case 'deleteLoan': {
+                const authToken = await AsyncStorage.getItem('token');
+                axios.post(apiUrl, {
+                    endpoint: '/deleteLoan',
+                    token: authToken,
+                    loanId: payload.loanId
+                })
+                .then(function (response) {
+                    var responseData = response.data;
+                    resolve(responseData);
+                })
+                break;
+            }
         }
     })
 }

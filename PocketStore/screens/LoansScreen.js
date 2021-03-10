@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Image, Text, TouchableOpacity, TextInput, FlatList }  from 'react-native';
 import { Input, Button } from 'react-native-elements';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faSearch, faCheckCircle, faTimesCircle, faClock } from '@fortawesome/free-solid-svg-icons'
 import apiReq from '../api'
 
-const LoansScreen = ({navigation}) => {
+const LoansScreen = ({route, navigation}) => {
     const [loansFromDb, setLoansFromDb] = useState('');
 
-    useState(async () => {
+    useEffect(() => {
         apiReq('myLoans', {}).then(res => {
             if (res.status == "ok") {
                 var loans = JSON.parse(res.loans);
@@ -16,7 +16,7 @@ const LoansScreen = ({navigation}) => {
             } else {
             }
         })
-    })
+    }, [route.params ? route.params["refetchData"] : ""])
 
     function statusIcon(status) {
         switch (status) {
