@@ -72,19 +72,21 @@ const NewLoanScreen = ({route, navigation}) => {
     }   
     }, [navigation]);
 
-    if (route.params) {
-        const loanItemsQty = route.params["loanItemsQty"];
-        if (loanItemsQty) {
-            var loanItemsTemp = [];
-            for (var id in originalItemsForLoan) {
-                if (loanItemsQty[id] > 0) {
-                    loanItemsTemp.push({"id":originalItemsForLoan[id].id, "name":originalItemsForLoan[id].name, "qty":loanItemsQty[id]})
+    
+        useEffect(() => {
+            if (route.params) {
+                const loanItemsQty = route.params["loanItemsQty"];
+                if (loanItemsQty) {
+                    var loanItemsTemp = [];
+                    for (var id in originalItemsForLoan) {
+                        if (loanItemsQty[id] > 0) {
+                            loanItemsTemp.push({"id":originalItemsForLoan[id].id, "name":originalItemsForLoan[id].name, "qty":loanItemsQty[id]})
+                        }
+                    }
+                    setLoanItemsWithQty(loanItemsTemp);
                 }
             }
-            setLoanItemsWithQty(loanItemsTemp);
-            //setRefreshFlatList(!refreshFlatList);
-        }
-    }
+        }, [route.params ? route.params["loanItemsQty"] : ""])
 
     return (
         <View style={{backgroundColor:'#fff',display:'flex',flexDirection:'column',alignItems:'center',height:'100%'}}>
@@ -98,7 +100,9 @@ const NewLoanScreen = ({route, navigation}) => {
                 <Text>{item.item.name} x {item.item.qty}</Text>
             )}
             keyExtractor={item => item.id} />
-            <TouchableOpacity style={{width:'95%',paddingVertical:10,alignItems:'center',backgroundColor:'#007aff'}}><Text style={{color:'#fff',fontWeight:'bold',fontSize:20}}>Submit</Text></TouchableOpacity>
+            <TouchableOpacity style={{width:'95%',paddingVertical:10,alignItems:'center',backgroundColor:'#007aff'}}><Text style={{color:'#fff',fontWeight:'bold',fontSize:20}} onPress={() => {
+                
+            }}>Submit</Text></TouchableOpacity>
         </View>
     );
 }
