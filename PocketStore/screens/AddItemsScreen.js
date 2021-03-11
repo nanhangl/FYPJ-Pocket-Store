@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Image, Text, TouchableOpacity, TextInput, StyleSheet, FlatList, I18nManager }  from 'react-native';
 import { Input, Button } from 'react-native-elements';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
@@ -8,9 +8,14 @@ import { RectButton } from 'react-native-gesture-handler';
 import {useTheme} from './context/ThemeContext';
 I18nManager.allowRTL(false);
 
-const AddItemsScreen = ({navigation}) => {
-    const ThemeContext = React.createContext('loanItemsQty');
+const AddItemsScreen = ({route, navigation}) => {
     const [loanItemsQty, setLoanItemsQty] = useState([0,0,0,0,0,0,0,0,0,0,0,0]);
+    if (route.params) {
+        useEffect(() => {
+            setLoanItemsQty(route.params["currentLoanItemsQty"]);
+            
+        }, [])
+    }
     const [refreshFlatList, setRefreshFlatList] = useState(false);
     const originalItemsForLoan = [
         {
