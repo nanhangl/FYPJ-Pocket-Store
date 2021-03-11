@@ -10,6 +10,7 @@ const NewLoanScreen = ({route, navigation}) => {
     const [loanItemsWithQty, setLoanItemsWithQty] = useState('');
     const [refreshFlatList, setRefreshFlatList] = useState(false);
     const [addItemsTitle, setAddItemsTitle] = useState('Add Items');
+    const [resetQty, setResetQty] = useState('false');
     const {colors, isDark} = useTheme();
     const originalItemsForLoan = [
         {
@@ -93,12 +94,14 @@ const NewLoanScreen = ({route, navigation}) => {
                     setLoanItemsWithQty(loanItemsTemp);
                 }
             }
-        }, [route.params ? route.params["loanItemsQty"] : ""])
+        }, [route.params ? JSON.stringify(route.params["loanItemsQty"]) : ""])
 
     const addNewLoan = async () => {
         apiReq('newLoan', JSON.stringify(loanItemsWithQty)).then(res => {
             if (res.status == "ok") {
                 setLoanItemsWithQty('');
+                setResetQty(true);
+                setAddItemsTitle('Add Items');
                     Toast.show({
                       text1: 'Loan Created Successfully'
                     });
@@ -108,18 +111,24 @@ const NewLoanScreen = ({route, navigation}) => {
         })
     }
 
+    const goAddItems = () => {
+        if (route.params) {
+            if (resetQty) {
+                setResetQty(false);
+                navigation.navigate("Add Items");
+            } else {
+                navigation.navigate("Add Items", { "currentLoanItemsQty": route.params["loanItemsQty"] });
+            }
+        } else {
+            navigation.navigate("Add Items");
+        }
+    }
+
     return (
         <View style={{backgroundColor: colors.background,display:'flex',flexDirection:'column',alignItems:'center',height:'100%'}}>
             <Text style={{paddingVertical:15,borderBottomWidth:0.5,borderBottomColor:"#d0d0d0",color:colors.text,width:'100%',textAlign:'center',fontWeight:'bold',fontSize:17}}>New Loan</Text>
             <Toast ref={(ref) => Toast.setRef(ref)} style={{backgroundColor:colors.background,zIndex:2}} />
-            <Button title={addItemsTitle} type="clear" onPress={() => {
-                if (route.params) {
-                    const loanItemsQty = route.params["loanItemsQty"];
-                    navigation.navigate("Add Items", { "currentLoanItemsQty": loanItemsQty });
-                } else {
-                    navigation.navigate("Add Items");
-                }
-            }} />
+            <Button title={addItemsTitle} type="clear" onPress={goAddItems} />
             <FlatList 
             data={loanItemsWithQty}
             extraData={refreshFlatList}

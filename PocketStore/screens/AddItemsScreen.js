@@ -13,7 +13,6 @@ const AddItemsScreen = ({route, navigation}) => {
     if (route.params) {
         useEffect(() => {
             setLoanItemsQty(route.params["currentLoanItemsQty"]);
-            
         }, [])
     }
     const [refreshFlatList, setRefreshFlatList] = useState(false);
@@ -87,7 +86,7 @@ const AddItemsScreen = ({route, navigation}) => {
           headerStyle: {backgroundColor: colors.background,borderBottomColor:"#d0d0d0",borderBottomWidth:0.5},
           headerTintColor: colors.text
         });
-    }, [navigation]);
+    }, [navigation, loanItemsQty]);
 
     const Row = ({ item }) => (
         <RectButton style={styles.rectButton} onPress={() => {
