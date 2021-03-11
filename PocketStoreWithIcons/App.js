@@ -1,3 +1,11 @@
+/**
+ * Sample React Native App
+ * https://github.com/facebook/react-native
+ *
+ * @format
+ * @flow strict-local
+ */
+
 import React from 'react';
 
 import { NavigationContainer } from '@react-navigation/native';
@@ -9,7 +17,10 @@ import AddItemsScreen from './screens/AddItemsScreen';
 import DetailsScreen from './screens/DetailsScreen';
 import LoansScreen from './screens/LoansScreen';
 import ManageScreen from './screens/ManageScreen';
-import Icon from 'react-native-ionicons'
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faPlus as faPlusSolid, faClipboardList as faClipboardListSolid, faCheckSquare as faCheckSquareSolid } from '@fortawesome/free-solid-svg-icons'
+import { faPlus as faPlusRegular, faClipboardList as faClipboardListRegular, faCheckSquare as faCheckSquareRegular } from '@fortawesome/free-regular-svg-icons'
+import { Text, TouchableOpacity }  from 'react-native';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -17,8 +28,8 @@ const Tab = createBottomTabNavigator();
 function UserHome() {
   return (
     <Tab.Navigator>
-        <Tab.Screen name="New Loan" component={NewLoanScreen} options={{tabBarIcon: ({focused}) => {return <Icon name="medkit" size={20} color={focused ? "#007aff" : "#c0c0c0"} />}}} />
-        <Tab.Screen name="My Loans" component={LoansScreen} options={{tabBarIcon: ({focused}) => {return <Icon name="filing" size={20} color={focused ? "#007aff" : "#c0c0c0"} />}}} />
+        <Tab.Screen name="New Loan" component={NewLoanScreen} />
+        <Tab.Screen name="My Loans" component={LoansScreen} />
     </Tab.Navigator>
   );
 }
@@ -26,7 +37,7 @@ function UserHome() {
 function ManagerHome() {
   return (
     <Tab.Navigator>
-        <Tab.Screen name="Manage Loans" component={ManageScreen} options={{tabBarIcon: ({focused}) => {return <Icon name="checkbox" size={20} color={focused ? "#007aff" : "#c0c0c0"} />}}} />
+        <Tab.Screen name="Manage Loans" component={ManageScreen} />
     </Tab.Navigator>
   );
 }

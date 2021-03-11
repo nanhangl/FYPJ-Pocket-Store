@@ -1,11 +1,8 @@
 import React, { useState } from 'react';
-import { View, Image, Text, TouchableOpacity, TextInput, StyleSheet, FlatList, I18nManager }  from 'react-native';
+import { View, Image, Text, TouchableOpacity, TextInput, SafeAreaView, FlatList }  from 'react-native';
 import { Input, Button } from 'react-native-elements';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
-import AppleStyleSwipeableRow from './AppleStyleSwipeableRow';
-import { RectButton } from 'react-native-gesture-handler';
-I18nManager.allowRTL(false);
 
 const AddItemsScreen = ({navigation}) => {
     const [loanItemsQty, setLoanItemsQty] = useState([0,0,0,0,0,0,0,0,0,0,0,0]);
@@ -72,58 +69,6 @@ const AddItemsScreen = ({navigation}) => {
         });
     }, [navigation]);
 
-    const Row = ({ item }) => (
-        <RectButton style={styles.rectButton} onPress={() => {
-            var originalQty = loanItemsQty;
-            isNaN(originalQty[item.id]) ? '' : originalQty[item.id] += 1;
-            setLoanItemsQty(originalQty);
-            setRefreshFlatList(!refreshFlatList);
-        }}>
-          <Text style={{width:'50%',fontSize:15}}>{item.name}</Text>
-          <Text style={{width:'50%',fontSize:15}}>{loanItemsQty[item.id]}</Text>
-        </RectButton>
-      );
-      
-      const SwipeableRow = ({ item }) => {
-          return (
-            <AppleStyleSwipeableRow>
-              <Row item={item} />
-              <View style={{borderBottomColor:"#d0d0d0",borderBottomWidth:1}}></View>
-            </AppleStyleSwipeableRow>
-          );
-      };
-
-      const styles = StyleSheet.create({
-        rectButton: {
-          flex: 1,
-          paddingVertical: 10,
-          paddingHorizontal: 3,
-          flexDirection: 'row',
-          backgroundColor: 'white',
-          borderBottomWidth: 1
-        },
-        separator: {
-          backgroundColor: 'rgb(200, 199, 204)',
-          height: StyleSheet.hairlineWidth,
-        },
-        fromText: {
-          fontWeight: 'bold',
-          backgroundColor: 'transparent',
-        },
-        messageText: {
-          color: '#999',
-          backgroundColor: 'transparent',
-        },
-        dateText: {
-          backgroundColor: 'transparent',
-          position: 'absolute',
-          right: 20,
-          top: 10,
-          color: '#999',
-          fontWeight: 'bold',
-        },
-      });
-
     return (
         <View style={{backgroundColor:'#fff',display:'flex',flexDirection:'column',alignItems:'center',height:'100%'}}>
             <View style={{flexDirection:'row',alignItems:'center',backgroundColor:'#e5e5e5',width:'95%',paddingHorizontal:10,marginTop:10,borderRadius:3 }}>
@@ -149,7 +94,7 @@ const AddItemsScreen = ({navigation}) => {
                     }
                  }} autoCapitalize='none' autoCompleteType='off' placeholder='Search' style={{marginLeft:5}} />
             </View>
-            {/* <FlatList 
+            <FlatList 
             data = {itemsForLoan}
             renderItem={(item) => (
                     <TouchableOpacity onPress={() => {
@@ -167,15 +112,7 @@ const AddItemsScreen = ({navigation}) => {
             keyExtractor={item => item.id}
             style={{width:'94%', marginTop:5}}
             extraData={refreshFlatList} 
-            /> */}
-            <FlatList
-            data={itemsForLoan}
-            keyExtractor={item => item.id}
-            extraData={refreshFlatList}
-            style={{width:'94%', marginTop:5}}
-            renderItem={({ item }) => (
-                <SwipeableRow item={item} />
-            )} />
+            />
         </View>
     );
 }
