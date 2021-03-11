@@ -38,7 +38,7 @@ const ManageScreen = ({route, navigation}) => {
 
     return (
         <View style={{backgroundColor:'#fff',display:'flex',flexDirection:'column',height:'100%',paddingHorizontal:10}}>
-            <Toast ref={(ref) => Toast.setRef(ref)} style={{backgroundColor:"#fff",zIndex:2}} />
+            <Toast ref={(ref) => Toast.setRef(ref)} style={{backgroundColor:"#fff",zIndex:2, }} />
             <FlatList
             style={{marginVertical:10}}
             data={allLoanItems}

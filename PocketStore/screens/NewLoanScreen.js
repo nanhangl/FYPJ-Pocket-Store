@@ -2,12 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { View, Image, Text, TouchableOpacity, FlatList }  from 'react-native';
 import { Input, Button } from 'react-native-elements';
 import { CommonActions } from '@react-navigation/native'
+import {useTheme} from './context/ThemeContext';
 import apiReq from '../api'
 import Toast from 'react-native-toast-message';
 
 const NewLoanScreen = ({route, navigation}) => {
     const [loanItemsWithQty, setLoanItemsWithQty] = useState('');
     const [refreshFlatList, setRefreshFlatList] = useState(false);
+    const {colors, isDark} = useTheme();
     const originalItemsForLoan = [
         {
             "id": "0",
@@ -75,6 +77,8 @@ const NewLoanScreen = ({route, navigation}) => {
     }, [navigation]);
 
     
+
+    
         useEffect(() => {
             if (route.params) {
                 const loanItemsQty = route.params["loanItemsQty"];
@@ -104,8 +108,9 @@ const NewLoanScreen = ({route, navigation}) => {
     }
 
     return (
-        <View style={{backgroundColor:'#fff',display:'flex',flexDirection:'column',alignItems:'center',height:'100%'}}>
-            <Toast ref={(ref) => Toast.setRef(ref)} style={{backgroundColor:"#fff"}} />
+        <View style={{backgroundColor: colors.background,display:'flex',flexDirection:'column',alignItems:'center',height:'100%'}}>
+            <Text style={{paddingVertical:15,borderBottomWidth:0.5,borderBottomColor:"#d0d0d0",color:colors.text,width:'100%',textAlign:'center',fontWeight:'bold',fontSize:17}}>New Loan</Text>
+            <Toast ref={(ref) => Toast.setRef(ref)} style={{backgroundColor:colors.background,zIndex:2}} />
             <Button title="Add Items" type="clear" onPress={() => {
                 navigation.navigate("Add Items");
             }} />
@@ -113,10 +118,10 @@ const NewLoanScreen = ({route, navigation}) => {
             data={loanItemsWithQty}
             extraData={refreshFlatList}
             renderItem={item => (
-                <Text>{item.item.name} x {item.item.qty}</Text>
+                <Text style={{color:colors.text}}>{item.item.name} x {item.item.qty}</Text>
             )}
             keyExtractor={item => item.id} />
-            <TouchableOpacity style={{width:'95%',paddingVertical:10,alignItems:'center',backgroundColor:'#007aff'}} onPress={addNewLoan}><Text style={{color:'#fff',fontWeight:'bold',fontSize:20}}>Submit</Text></TouchableOpacity>
+            <TouchableOpacity style={{width:'95%',paddingVertical:10,alignItems:'center',backgroundColor:'#007aff',marginBottom:15}} onPress={addNewLoan}><Text style={{color:'#fff',fontWeight:'bold',fontSize:20}}>Submit</Text></TouchableOpacity>
         </View>
     );
 }

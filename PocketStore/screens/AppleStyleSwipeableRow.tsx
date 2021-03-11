@@ -17,7 +17,9 @@ export default class AppleStyleSwipeableRow extends Component {
     text: string,
     color: string,
     x: number,
-    progress: Animated.AnimatedInterpolation
+    progress: Animated.AnimatedInterpolation,
+    itemId: number,
+    clearLoanItemQty
   ) => {
     const trans = progress.interpolate({
       inputRange: [0, 1],
@@ -25,7 +27,7 @@ export default class AppleStyleSwipeableRow extends Component {
     });
     const pressHandler = () => {
       this.close();
-      Alert.alert(text);
+      clearLoanItemQty(itemId);
     };
 
     return (
@@ -41,14 +43,16 @@ export default class AppleStyleSwipeableRow extends Component {
 
   private renderRightActions = (
     progress: Animated.AnimatedInterpolation,
-    _dragAnimatedValue: Animated.AnimatedInterpolation
+    _dragAnimatedValue: Animated.AnimatedInterpolation,
+    itemId: number,
+    clearLoanItemQty
   ) => (
     <View
       style={{
         width: 192,
         flexDirection: I18nManager.isRTL ? 'row-reverse' : 'row',
       }}>
-      {this.renderRightAction('Reset', '#dd2c00', 64, progress)}
+      {this.renderRightAction('Reset', '#dd2c00', 64, progress, itemId, clearLoanItemQty)}
     </View>
   );
 
@@ -69,7 +73,7 @@ export default class AppleStyleSwipeableRow extends Component {
         enableTrackpadTwoFingerGesture
         leftThreshold={30}
         rightThreshold={40}
-        renderRightActions={this.renderRightActions}>
+        renderRightActions={(progress, _dragAnimatedValue) => this.renderRightActions(progress, _dragAnimatedValue, this.props['itemId'], this.props['clearLoanItemQty'])}>
         {children}
       </Swipeable>
     );

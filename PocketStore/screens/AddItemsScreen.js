@@ -5,9 +5,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import AppleStyleSwipeableRow from './AppleStyleSwipeableRow';
 import { RectButton } from 'react-native-gesture-handler';
+import {useTheme} from './context/ThemeContext';
 I18nManager.allowRTL(false);
 
 const AddItemsScreen = ({navigation}) => {
+    const ThemeContext = React.createContext('loanItemsQty');
     const [loanItemsQty, setLoanItemsQty] = useState([0,0,0,0,0,0,0,0,0,0,0,0]);
     const [refreshFlatList, setRefreshFlatList] = useState(false);
     const originalItemsForLoan = [
@@ -61,6 +63,14 @@ const AddItemsScreen = ({navigation}) => {
         }
     ];
     const [itemsForLoan, setItemsForLoan] = useState(originalItemsForLoan);
+    const {colors, isDark} = useTheme();
+
+    const clearLoanItemQty = (itemId) => {
+        var loanQtyArray = loanItemsQty;
+        loanQtyArray[itemId] = 0;
+        setLoanItemsQty(loanQtyArray);
+        setRefreshFlatList(!refreshFlatList);
+    }
 
     React.useLayoutEffect(() => {
         navigation.setOptions({
@@ -69,6 +79,8 @@ const AddItemsScreen = ({navigation}) => {
                 <Text style={{color:"#007aff"}}>Done</Text>
             </TouchableOpacity>
           ),
+          headerStyle: {backgroundColor: colors.background,borderBottomColor:"#d0d0d0",borderBottomWidth:0.5},
+          headerTintColor: colors.text
         });
     }, [navigation]);
 
@@ -78,16 +90,16 @@ const AddItemsScreen = ({navigation}) => {
             isNaN(originalQty[item.id]) ? '' : originalQty[item.id] += 1;
             setLoanItemsQty(originalQty);
             setRefreshFlatList(!refreshFlatList);
-        }}>
-          <Text style={{width:'50%',fontSize:15}}>{item.name}</Text>
-          <Text style={{width:'50%',fontSize:15}}>{loanItemsQty[item.id]}</Text>
+        }} >
+          <Text style={{width:'50%',fontSize:15, color:colors.text}}>{item.name}</Text>
+          <Text style={{width:'50%',fontSize:15, color:colors.text}}>{loanItemsQty[item.id]}</Text>
         </RectButton>
       );
       
       const SwipeableRow = ({ item }) => {
           return (
-            <AppleStyleSwipeableRow>
-              <Row item={item} />
+            <AppleStyleSwipeableRow itemId={item.id} clearLoanItemQty={clearLoanItemQty}>
+              <Row item={item}/>
               <View style={{borderBottomColor:"#d0d0d0",borderBottomWidth:1}}></View>
             </AppleStyleSwipeableRow>
           );
@@ -99,33 +111,17 @@ const AddItemsScreen = ({navigation}) => {
           paddingVertical: 10,
           paddingHorizontal: 3,
           flexDirection: 'row',
-          backgroundColor: 'white',
+          backgroundColor: colors.background,
           borderBottomWidth: 1
         },
         separator: {
           backgroundColor: 'rgb(200, 199, 204)',
           height: StyleSheet.hairlineWidth,
-        },
-        fromText: {
-          fontWeight: 'bold',
-          backgroundColor: 'transparent',
-        },
-        messageText: {
-          color: '#999',
-          backgroundColor: 'transparent',
-        },
-        dateText: {
-          backgroundColor: 'transparent',
-          position: 'absolute',
-          right: 20,
-          top: 10,
-          color: '#999',
-          fontWeight: 'bold',
-        },
+        }
       });
 
     return (
-        <View style={{backgroundColor:'#fff',display:'flex',flexDirection:'column',alignItems:'center',height:'100%'}}>
+        <View style={{backgroundColor:colors.background,display:'flex',flexDirection:'column',alignItems:'center',height:'100%'}}>
             <View style={{flexDirection:'row',alignItems:'center',backgroundColor:'#e5e5e5',width:'95%',paddingHorizontal:10,marginTop:10,borderRadius:3 }}>
                 <FontAwesomeIcon icon={faSearch} />
                 <TextInput onChangeText={(text) => {
@@ -147,7 +143,7 @@ const AddItemsScreen = ({navigation}) => {
                         setItemsForLoan(originalItemsForLoan);
                         setRefreshFlatList(!refreshFlatList);
                     }
-                 }} autoCapitalize='none' autoCompleteType='off' placeholder='Search' style={{marginLeft:5}} />
+                 }} autoCapitalize='none' autoCompleteType='off' placeholder='Search' style={{marginLeft:5,color:"#000"}} />
             </View>
             {/* <FlatList 
             data = {itemsForLoan}
