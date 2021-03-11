@@ -9,6 +9,7 @@ import Toast from 'react-native-toast-message';
 const NewLoanScreen = ({route, navigation}) => {
     const [loanItemsWithQty, setLoanItemsWithQty] = useState('');
     const [refreshFlatList, setRefreshFlatList] = useState(false);
+    const [addItemsTitle, setAddItemsTitle] = useState('Add Items');
     const {colors, isDark} = useTheme();
     const originalItemsForLoan = [
         {
@@ -76,13 +77,13 @@ const NewLoanScreen = ({route, navigation}) => {
     }   
     }, [navigation]);
 
-    
-
-    
         useEffect(() => {
             if (route.params) {
                 const loanItemsQty = route.params["loanItemsQty"];
                 if (loanItemsQty) {
+                    if (loanItemsQty != [0,0,0,0,0,0,0,0,0,0,0,0]) {
+                        setAddItemsTitle('Edit Items');
+                    }
                     var loanItemsTemp = [];
                     for (var id in originalItemsForLoan) {
                         if (loanItemsQty[id] > 0) {
@@ -111,8 +112,13 @@ const NewLoanScreen = ({route, navigation}) => {
         <View style={{backgroundColor: colors.background,display:'flex',flexDirection:'column',alignItems:'center',height:'100%'}}>
             <Text style={{paddingVertical:15,borderBottomWidth:0.5,borderBottomColor:"#d0d0d0",color:colors.text,width:'100%',textAlign:'center',fontWeight:'bold',fontSize:17}}>New Loan</Text>
             <Toast ref={(ref) => Toast.setRef(ref)} style={{backgroundColor:colors.background,zIndex:2}} />
-            <Button title="Add Items" type="clear" onPress={() => {
-                navigation.navigate("Add Items");
+            <Button title={addItemsTitle} type="clear" onPress={() => {
+                if (route.params) {
+                    const loanItemsQty = route.params["loanItemsQty"];
+                    navigation.navigate("Add Items", { "currentLoanItemsQty": loanItemsQty });
+                } else {
+                    navigation.navigate("Add Items");
+                }
             }} />
             <FlatList 
             data={loanItemsWithQty}
