@@ -45,7 +45,7 @@ const SignInScreen = ({navigation}) => {
           headerStyle: {backgroundColor: colors.background,borderBottomColor:"#d0d0d0",borderBottomWidth:0.5},
           headerTintColor: colors.text
         });
-    }, [navigation]);
+    }, [navigation, isDark]);
 
     return (
             <SafeAreaView style={{backgroundColor:colors.background,flexDirection:'column',alignItems:'center',height:'100%'}}>

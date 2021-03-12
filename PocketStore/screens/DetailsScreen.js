@@ -15,7 +15,6 @@ const DetailsScreen = ({route, navigation}) => {
         apiReq('deleteLoan', {loanId}).then(res => {
             if (res.status == "ok") {
                 navigation.navigate('My Loans', {"resetNav":true, "refetchData":Math.random()})
-            } else {
             }
         })
     }

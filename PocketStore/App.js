@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -14,6 +14,7 @@ import {AppearanceProvider} from 'react-native-appearance';
 import {ThemeProvider} from './screens/context/ThemeContext';
 import {useTheme} from './screens/context/ThemeContext';
 import {Text} from 'react-native'
+import SplashScreen from 'react-native-splash-screen';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -41,6 +42,11 @@ function ManagerHome() {
 
 const App = ({navigation}) => {
   const {colors, isDark} = useTheme();
+
+  // Component.prototype.componentDidMount(() => {
+  //   SplashScreen.hide();
+  // })
+
   return (
     <AppearanceProvider>
       <ThemeProvider>
@@ -48,7 +54,7 @@ const App = ({navigation}) => {
           <Stack.Navigator>
             <Stack.Screen name="PocketStore" component={SignInScreen} />
             <Stack.Screen name="UserHome" component={UserHome} options={{headerShown:false}} />
-            <Stack.Screen name="ManagerHome" component={ManagerHome} options={{title:"Manage Loans"}} />
+            <Stack.Screen name="ManagerHome" component={ManagerHome} options={{headerShown:false}} />
             <Stack.Screen name="Add Items" component={AddItemsScreen} />
             <Stack.Screen name="Loan Details" component={DetailsScreen} />
           </Stack.Navigator>

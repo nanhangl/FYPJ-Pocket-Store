@@ -4,6 +4,7 @@ export const lightColors = {
     primary: '#512DA8',
     text: '#121212',
     error: '#D32F2F',
+    border: '#d0d0d0'
   };
   
   // Dark theme colors
@@ -12,4 +13,5 @@ export const lightColors = {
     primary: '#B39DDB',
     text: '#d0d0d0',
     error: '#EF9A9A',
+    border: '#d0d0d0'
   };

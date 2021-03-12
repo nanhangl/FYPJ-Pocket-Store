@@ -4,11 +4,13 @@ import { Input, Button } from 'react-native-elements';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faSearch, faCheckCircle, faUser } from '@fortawesome/free-solid-svg-icons'
 import Toast from 'react-native-toast-message';
+import {useTheme} from './context/ThemeContext';
 import apiReq from '../api'
 
 const ManageScreen = ({route, navigation}) => {
     const [allLoanItems, setAllLoanItems] = useState('');
     const [refreshFlatList, setRefreshFlatList] = useState(false);
+    const {colors, isDark} = useTheme();
 
     useState(async () => {
         apiReq('allLoans', {}).then(res => {
@@ -37,24 +39,25 @@ const ManageScreen = ({route, navigation}) => {
     }
 
     return (
-        <View style={{backgroundColor:'#fff',display:'flex',flexDirection:'column',height:'100%',paddingHorizontal:10}}>
-            <Toast ref={(ref) => Toast.setRef(ref)} style={{backgroundColor:"#fff",zIndex:2, }} />
+        <View style={{backgroundColor:colors.background,display:'flex',flexDirection:'column',height:'100%',paddingHorizontal:10}}>
+            <Text style={{paddingVertical:15,borderBottomWidth:0.5,borderBottomColor:"#d0d0d0",color:colors.text,width:'100%',textAlign:'center',fontWeight:'bold',fontSize:17}}>Manage Loans</Text>
+            <Toast ref={(ref) => Toast.setRef(ref)} style={{backgroundColor:colors.background,zIndex:2, }} />
             <FlatList
             style={{marginVertical:10}}
             data={allLoanItems}
             extraData={refreshFlatList}
             keyExtractor={item => item.LoanId}
             renderItem={(item) => (
-                <View style={{shadowColor:'#000',shadowOffset:{width:0,height:4},shadowOpacity:0.25,shadowRadius:3,elevation:3,backgroundColor:'#fff',marginVertical:7.5,borderRadius:3,marginHorizontal:5}}>
+                <View style={{shadowColor:"#000",shadowOffset:{width:0,height:4},shadowOpacity:0.25,shadowRadius:3,elevation:3,backgroundColor:colors.background,marginVertical:7.5,borderRadius:3,marginHorizontal:5,borderWidth:1,borderColor:colors.border}}>
                     <View style={{flexDirection:'row',borderBottomWidth:1,borderBottomColor:'#d0d0d0',padding:15,alignItems:'center'}}>
-                        <FontAwesomeIcon icon={faUser} />
-                        <Text style={{marginLeft:5}}>{item.item.UserId}</Text>
+                        <FontAwesomeIcon icon={faUser} color={colors.text} />
+                        <Text style={{marginLeft:5,color:colors.text}}>{item.item.UserId}</Text>
                     </View>
                     <View style={{padding:15}}>
                         <FlatList
                         data={item.item.LoanItems}
                         keyExtractor={item => item.Id}
-                        renderItem={(item) => (<Text>{item.item.Name} x {item.item.Qty}</Text>)} />
+                        renderItem={(item) => (<Text style={{color:colors.text}}>{item.item.Name} x {item.item.Qty}</Text>)} />
                     </View>
                     { item.item.LoanStatus == "pending" ?
                     <View style={{flexDirection:'row',marginBottom:15}}>
